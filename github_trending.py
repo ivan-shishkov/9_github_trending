@@ -1,6 +1,8 @@
 from datetime import date, timedelta
+import sys
 
 import requests
+from requests.exceptions import ConnectionError
 
 
 def main():
@@ -13,7 +15,10 @@ def main():
         'order=desc',
     )
 
-    github_response = requests.get(request_string)
+    try:
+        github_response = requests.get(request_string)
+    except ConnectionError:
+        sys.exit('Could not connect to GitHub. Check your Internet connection')
 
 
 if __name__ == '__main__':
