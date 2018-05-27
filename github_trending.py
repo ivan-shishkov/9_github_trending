@@ -1,5 +1,7 @@
 from datetime import date, timedelta
 
+import requests
+
 
 def main():
     date_week_ago = date.today() - timedelta(weeks=1)
@@ -10,6 +12,8 @@ def main():
         'sort=stars',
         'order=desc',
     )
+
+    github_response = requests.get(request_string)
 
 
 if __name__ == '__main__':
