@@ -20,6 +20,11 @@ def main():
     except ConnectionError:
         sys.exit('Could not connect to GitHub. Check your Internet connection')
 
+    if github_response.status_code != requests.codes.ok:
+        sys.exit('GitHub response with status code {}, should be 200'.format(
+            github_response.status_code
+        ))
+
 
 if __name__ == '__main__':
     main()
