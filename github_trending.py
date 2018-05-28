@@ -33,6 +33,8 @@ def main():
         'order=desc',
     )
 
+    print('Getting info about top starred repositories created last week...')
+
     github_response = execute_get_request(request_string)
 
     error_message = check_response_ok(github_response)
