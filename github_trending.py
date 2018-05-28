@@ -5,6 +5,14 @@ import requests
 from requests.exceptions import ConnectionError
 
 
+def print_repository_issues_info(repository_issues_info):
+    for issue_number, issue_info in enumerate(repository_issues_info):
+        print('    Issue #{}'.format(issue_number + 1))
+        print('    Title: {}'.format(issue_info['title']))
+        print('    HTML URL: {}'.format(issue_info['html_url']))
+        print()
+
+
 def print_repository_info(repository_info):
     print('Name: {}'.format(repository_info['name']))
     print('Description: {}'.format(repository_info['description']))
@@ -13,6 +21,8 @@ def print_repository_info(repository_info):
     print('HTML URL: {}'.format(repository_info['html_url']))
     print('Language: {}'.format(repository_info['language']))
     print('Open issues count: {}'.format(repository_info['open_issues_count']))
+
+    print_repository_issues_info(repository_info['open_issues_info'])
 
 
 def print_repositories_info(repositories_info, count_repositories):
