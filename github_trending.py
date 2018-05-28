@@ -5,6 +5,31 @@ import requests
 from requests.exceptions import ConnectionError
 
 
+def print_repository_info(repository_info):
+    print('Name: {}'.format(repository_info['name']))
+    print('Description: {}'.format(repository_info['description']))
+    print('Stars: {}'.format(repository_info['stargazers_count']))
+    print('Created at: {}'.format(repository_info['created_at']))
+    print('HTML URL: {}'.format(repository_info['html_url']))
+    print('Language: {}'.format(repository_info['language']))
+    print('Open issues count: {}'.format(repository_info['open_issues_count']))
+
+
+def print_repositories_info(repositories_info, count_repositories):
+    print()
+    print('Top {} Most Starred Repositories Created Last Week'.format(
+        count_repositories
+    ))
+    print()
+
+    for repository_number, repository_info in enumerate(repositories_info):
+        print('#{}'.format(repository_number + 1))
+
+        print_repository_info(repository_info)
+
+        print()
+
+
 def execute_get_request(request_string):
     try:
         response = requests.get(request_string)
@@ -66,6 +91,10 @@ def main():
     if error_message:
         sys.exit(error_message)
 
+    print_repositories_info(
+        repositories_info=repositories_info,
+        count_repositories=count_repositories,
+    )
 
 
 if __name__ == '__main__':
