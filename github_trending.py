@@ -54,21 +54,23 @@ def check_response_ok(response):
 
 def add_issues_info(repositories_info):
     for repository_info in repositories_info:
-        open_issues_info = execute_get_request(
+        open_issues_info_response = execute_get_request(
             repository_info['issues_url'].rstrip('{/number}')
         )
-        error_message = check_response_ok(open_issues_info)
+        error_message = check_response_ok(open_issues_info_response)
 
         if error_message:
             return error_message
 
-        repository_info['open_issues_info'] = open_issues_info.json()
+        repository_info['open_issues_info'] = open_issues_info_response.json()
 
 
 def main():
+    count_repositories = 20
+
     date_week_ago = date.today() - timedelta(weeks=1)
 
-    request_string = '{}?q=created:>{}&{}&{}'.format(
+    repositories_info_request = '{}?q=created:>{}&{}&{}'.format(
         'https://api.github.com/search/repositories',
         date_week_ago,
         'sort=stars',
@@ -77,18 +79,17 @@ def main():
 
     print('Getting info about top starred repositories created last week...')
 
-    github_response = execute_get_request(request_string)
+    repositories_info_response = execute_get_request(repositories_info_request)
 
-    error_message = check_response_ok(github_response)
+    error_message = check_response_ok(repositories_info_response)
 
     if error_message:
         sys.exit(error_message)
 
     print('Getting info about open issues for every repository...')
 
-    count_repositories = 20
-
-    repositories_info = github_response.json()['items'][:count_repositories]
+    repositories_info = repositories_info_response.json()['items'][
+                        :count_repositories]
 
     error_message = add_issues_info(repositories_info)
 
