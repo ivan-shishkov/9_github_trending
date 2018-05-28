@@ -25,13 +25,7 @@ def print_repository_info(repository_info):
     print_repository_issues_info(repository_info['open_issues_info'])
 
 
-def print_repositories_info(repositories_info, count_repositories):
-    print()
-    print('Top {} Most Starred Repositories Created Last Week'.format(
-        count_repositories
-    ))
-    print()
-
+def print_repositories_info(repositories_info):
     for repository_number, repository_info in enumerate(repositories_info):
         print('#{}'.format(repository_number + 1))
 
@@ -101,9 +95,14 @@ def main():
     if error_message:
         sys.exit(error_message)
 
+    print()
+    print('Top {} Most Starred Repositories Created Last Week'.format(
+        count_repositories
+    ))
+    print()
+
     print_repositories_info(
         repositories_info=repositories_info,
-        count_repositories=count_repositories,
     )
 
 
