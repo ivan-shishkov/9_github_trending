@@ -5,6 +5,14 @@ import requests
 from requests.exceptions import ConnectionError
 
 
+def execute_get_request(request_string):
+    try:
+        response = requests.get(request_string)
+        return response
+    except ConnectionError:
+        return None
+
+
 def main():
     date_week_ago = date.today() - timedelta(weeks=1)
 
@@ -15,9 +23,9 @@ def main():
         'order=desc',
     )
 
-    try:
-        github_response = requests.get(request_string)
-    except ConnectionError:
+    github_response = execute_get_request(request_string)
+
+    if not github_response:
         sys.exit('Could not connect to GitHub. Check your Internet connection')
 
     if github_response.status_code != requests.codes.ok:
