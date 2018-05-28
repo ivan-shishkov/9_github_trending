@@ -23,6 +23,19 @@ def check_response_ok(response):
         )
 
 
+def add_issues_info(repositories_info):
+    for repository_info in repositories_info:
+        open_issues_info = execute_get_request(
+            repository_info['issues_url'].rstrip('{/number}')
+        )
+        error_message = check_response_ok(open_issues_info)
+
+        if error_message:
+            return error_message
+
+        repository_info['open_issues_info'] = open_issues_info.json()
+
+
 def main():
     date_week_ago = date.today() - timedelta(weeks=1)
 
@@ -42,10 +55,17 @@ def main():
     if error_message:
         sys.exit(error_message)
 
-    if github_response.status_code != requests.codes.ok:
-        sys.exit('GitHub response with status code {}, should be 200'.format(
-            github_response.status_code
-        ))
+    print('Getting info about open issues for every repository...')
+
+    count_repositories = 20
+
+    repositories_info = github_response.json()['items'][:count_repositories]
+
+    error_message = add_issues_info(repositories_info)
+
+    if error_message:
+        sys.exit(error_message)
+
 
 
 if __name__ == '__main__':
