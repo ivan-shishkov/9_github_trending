@@ -13,6 +13,16 @@ def execute_get_request(request_string):
         return None
 
 
+def check_response_ok(response):
+    if response is None:
+        return 'Response not received. Check your Internet connection'
+
+    if response.status_code != requests.codes.ok:
+        return 'Response status code is {}, should be 200'.format(
+            response.status_code
+        )
+
+
 def main():
     date_week_ago = date.today() - timedelta(weeks=1)
 
@@ -25,8 +35,10 @@ def main():
 
     github_response = execute_get_request(request_string)
 
-    if not github_response:
-        sys.exit('Could not connect to GitHub. Check your Internet connection')
+    error_message = check_response_ok(github_response)
+
+    if error_message:
+        sys.exit(error_message)
 
     if github_response.status_code != requests.codes.ok:
         sys.exit('GitHub response with status code {}, should be 200'.format(
