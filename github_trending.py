@@ -29,7 +29,11 @@ def print_repository_info(repository_info):
     print_repository_issues_info(repository_info['open_issues_info'])
 
 
-def print_repositories_info(repositories_info):
+def print_repositories_info(repositories_info, title):
+    print()
+    print(title)
+    print()
+
     for repository_number, repository_info in enumerate(
             repositories_info, start=1):
         print('#{}'.format(repository_number))
@@ -109,6 +113,9 @@ def main():
 
     print_repositories_info(
         repositories_info=repositories_info,
+        title='Top {} Most Starred Repositories Created Last Week'.format(
+            len(repositories_info)
+        )
     )
 
 
