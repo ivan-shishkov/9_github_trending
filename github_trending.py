@@ -69,13 +69,8 @@ def check_response_ok(response):
 def add_issues_info(repositories_info):
     for repository_info in repositories_info:
         open_issues_info_response = execute_get_request(
-            repository_info['issues_url'].rstrip('{/number}')
+            url=repository_info['issues_url'].rstrip('{/number}'),
         )
-        error_message = check_response_ok(open_issues_info_response)
-
-        if error_message:
-            return error_message
-
         repository_info['open_issues_info'] = open_issues_info_response.json()
 
 
