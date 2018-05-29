@@ -47,7 +47,7 @@ def check_response_ok(response):
     if response is None:
         return 'Response not received. Check your Internet connection'
 
-    if response.status_code != requests.codes.ok:
+    if not response.ok:
         return 'Response status code is {}, should be 200'.format(
             response.status_code
         )
