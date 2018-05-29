@@ -5,6 +5,10 @@ import requests
 from requests.exceptions import ConnectionError
 
 
+class ResponseError(Exception):
+    pass
+
+
 def print_repository_issues_info(repository_issues_info):
     for issue_number, issue_info in enumerate(repository_issues_info, start=1):
         print('    Issue #{}'.format(issue_number))
