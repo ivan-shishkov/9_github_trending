@@ -102,19 +102,10 @@ def main():
 
     print('Getting info about open issues for every repository...')
 
-    repositories_info = repositories_info_response.json()['items'][
-                        :count_repositories]
-
-    error_message = add_issues_info(repositories_info)
-
-    if error_message:
-        sys.exit(error_message)
-
-    print()
-    print('Top {} Most Starred Repositories Created Last Week'.format(
-        count_repositories
-    ))
-    print()
+    try:
+        add_issues_info(repositories_info)
+    except ResponseError as error:
+        sys.exit(error)
 
     print_repositories_info(
         repositories_info=repositories_info,
