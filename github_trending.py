@@ -6,8 +6,8 @@ from requests.exceptions import ConnectionError
 
 
 def print_repository_issues_info(repository_issues_info):
-    for issue_number, issue_info in enumerate(repository_issues_info):
-        print('    Issue #{}'.format(issue_number + 1))
+    for issue_number, issue_info in enumerate(repository_issues_info, start=1):
+        print('    Issue #{}'.format(issue_number))
         print('    Title: {}'.format(issue_info['title']))
         print('    HTML URL: {}'.format(issue_info['html_url']))
         print()
@@ -26,8 +26,9 @@ def print_repository_info(repository_info):
 
 
 def print_repositories_info(repositories_info):
-    for repository_number, repository_info in enumerate(repositories_info):
-        print('#{}'.format(repository_number + 1))
+    for repository_number, repository_info in enumerate(
+            repositories_info, start=1):
+        print('#{}'.format(repository_number))
 
         print_repository_info(repository_info)
 
