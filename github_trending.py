@@ -42,9 +42,18 @@ def print_repositories_info(repositories_info):
 def execute_get_request(url, params=None):
     try:
         response = requests.get(url, params=params)
-        return response
     except ConnectionError:
-        return None
+        raise ResponseError(
+            'Response not received. Check your Internet connection',
+        )
+
+    if not response.ok:
+        raise ResponseError(
+            'Response status code is {}, should be 200'.format(
+                response.status_code,
+            )
+        )
+    return response
 
 
 def check_response_ok(response):
