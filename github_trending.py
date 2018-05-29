@@ -55,7 +55,7 @@ def execute_get_request(url, params=None):
         raise ResponseError(
             'Response status code is {}, should be 200'.format(
                 response.status_code,
-            )
+            ),
         )
     return response
 
@@ -105,7 +105,7 @@ def main():
         repositories_info=repositories_info,
         title='Top {} Most Starred Repositories Created Last Week'.format(
             len(repositories_info)
-        )
+        ),
     )
 
 
