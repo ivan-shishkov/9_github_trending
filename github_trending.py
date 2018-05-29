@@ -35,9 +35,9 @@ def print_repositories_info(repositories_info):
         print()
 
 
-def execute_get_request(request_string):
+def execute_get_request(url, params=None):
     try:
-        response = requests.get(request_string)
+        response = requests.get(url, params=params)
         return response
     except ConnectionError:
         return None
