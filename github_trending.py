@@ -71,16 +71,16 @@ def main():
 
     date_week_ago = date.today() - timedelta(weeks=1)
 
-    repositories_info_request = '{}?q=created:>{}&{}&{}'.format(
-        'https://api.github.com/search/repositories',
-        date_week_ago,
-        'sort=stars',
-        'order=desc',
-    )
-
     print('Getting info about top starred repositories created last week...')
 
-    repositories_info_response = execute_get_request(repositories_info_request)
+    repositories_info_response = execute_get_request(
+        url='https://api.github.com/search/repositories',
+        params={
+            'q': 'created:>{}'.format(date_week_ago),
+            'sort': 'stars',
+            'order': 'decs',
+        },
+    )
 
     error_message = check_response_ok(repositories_info_response)
 
