@@ -60,16 +60,6 @@ def execute_get_request(url, params=None):
     return response
 
 
-def check_response_ok(response):
-    if response is None:
-        return 'Response not received. Check your Internet connection'
-
-    if not response.ok:
-        return 'Response status code is {}, should be 200'.format(
-            response.status_code
-        )
-
-
 def add_issues_info(repositories_info):
     for repository_info in repositories_info:
         open_issues_info_response = execute_get_request(
