@@ -74,26 +74,31 @@ def add_issues_info(repositories_info):
         repository_info['open_issues_info'] = open_issues_info_response.json()
 
 
+def get_repositories_info(url, url_params, count_repositories):
+    repositories_info_response = execute_get_request(
+        url=url,
+        params=url_params,
+    )
+    return repositories_info_response.json()['items'][:count_repositories]
+
+
 def main():
     count_repositories = 20
 
-    date_week_ago = date.today() - timedelta(weeks=1)
-
     print('Getting info about top starred repositories created last week...')
 
-    repositories_info_response = execute_get_request(
-        url='https://api.github.com/search/repositories',
-        params={
-            'q': 'created:>{}'.format(date_week_ago),
-            'sort': 'stars',
-            'order': 'decs',
-        },
-    )
-
-    error_message = check_response_ok(repositories_info_response)
-
-    if error_message:
-        sys.exit(error_message)
+    try:
+        repositories_info = get_repositories_info(
+            url='https://api.github.com/search/repositories',
+            url_params={
+                'q': 'created:>{}'.format(date.today() - timedelta(weeks=1)),
+                'sort': 'stars',
+                'order': 'decs',
+            },
+            count_repositories=count_repositories,
+        )
+    except ResponseError as error:
+        sys.exit(error)
 
     print('Getting info about open issues for every repository...')
 
