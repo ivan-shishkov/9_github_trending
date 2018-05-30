@@ -61,30 +61,27 @@ def add_issues_info(repositories_info):
     return True
 
 
-def get_repositories_info(url, url_params, count_repositories):
+def get_repositories_info(count_top_starred_repositories, created_since):
     repositories_info = execute_get_request(
-        url=url,
-        params=url_params,
+        url='https://api.github.com/search/repositories',
+        params={
+            'q': 'created:>={}'.format(created_since),
+            'sort': 'stars',
+            'order': 'decs',
+        },
     )
     if repositories_info is None:
         return None
 
-    return repositories_info['items'][:count_repositories]
+    return repositories_info['items'][:count_top_starred_repositories]
 
 
 def main():
-    count_repositories = 20
-
     print('Getting info about top starred repositories created last week...')
 
     repositories_info = get_repositories_info(
-        url='https://api.github.com/search/repositories',
-        url_params={
-            'q': 'created:>{}'.format(date.today() - timedelta(weeks=1)),
-            'sort': 'stars',
-            'order': 'decs',
-        },
-        count_repositories=count_repositories,
+        count_top_starred_repositories=20,
+        created_since=date.today() - timedelta(weeks=1),
     )
 
     if repositories_info is None:
